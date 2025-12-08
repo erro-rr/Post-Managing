@@ -6,9 +6,11 @@ const authRoute = require('./routes/authRoute');
 
 const app = express();
 const port = process.env.PORT || 5000;
+const mongoURL = process.env.MONGO_URL;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static('public'));
 
 
 
@@ -21,11 +23,11 @@ app.use('/API', userRoute);
 app.use('/API', authRoute);
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/PostManagingAPI')
+mongoose.connect(mongoURL)
     .then(() => { console.log(`Connected to mongodb`) })
     .catch((err) => { console.error(err) });
 
 
-app.listen(5000, () => {
+app.listen(port, () => {
     console.log(`Server Running on port no ${port}`);
 });

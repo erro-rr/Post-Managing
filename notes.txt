@@ -1,0 +1,14 @@
+userID:ObjectId('xyzzz')
+permission:[
+    {
+        permission_name:'User',
+        permission_value:[0,1,2,3] // 0 -> Create , 1->Read , 2->Edit , 3->Delete
+    },
+    {
+        permission_name:'Post',
+        permission_value:[0,1,2]
+    },
+]
+
+
+// For understanding permissioan and role

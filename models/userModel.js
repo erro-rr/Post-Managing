@@ -8,9 +8,9 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique:true,
+        unique: true,
         lowercase: true,
-        trim:true
+        trim: true
     },
     password: {
         type: String,
@@ -26,11 +26,16 @@ const userSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        default:null
+        default: null
+    },
+    role: {
+        type: Number,
+        default: 0 // 0->User 1->Admin 2->Sub-Admin 3->Editior
     }
 },
-    { timestamps: true,
-      collection: "User"
+    {
+        timestamps: true,
+        collection: "User"
     }
 )
 

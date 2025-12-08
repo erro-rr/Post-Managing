@@ -57,7 +57,7 @@ const userRegister = async (req, res) => {
     const msg = `<p>Hi ${name}, please verify your email using this <a href="http://127.0.0.1:5000/API/mail-verification?id=${userData._id}">verification link</a>.</p>`;
 
     mailers.sendMail(email, 'Mail Verification', msg);
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       msg: 'User Registered Successfully',
       userDetails: {
@@ -65,7 +65,8 @@ const userRegister = async (req, res) => {
         email: userData.email,
         mobile: userData.mobile,
         isVerified: userData.isVerified,
-        image: userData.image
+        image: userData.image,
+        role: userData.role == 0 ? "User" : userData.role == 1 ? "Admin" : userData.role == 2 ? "Sub-Admin" : userData.role == 3 ? "Editior" : ""
       }
     });
   } catch (error) {
@@ -145,7 +146,14 @@ const userLogin = async (req, res) => {
         return res.status(200).json({
           success: true,
           msg: "Login Successfully",
-          userData: userData,
+          userData: {
+            name: userData.name,
+            email: userData.email,
+            mobile: userData.mobile,
+            isVerified: userData.isVerified,
+            image: userData.image,
+            role: userData.role == 0 ? "User" : userData.role == 1 ? "Admin" : userData.role == 2 ? "Sub-Admin" : userData.role == 3 ? "Editior" : ""
+          },
           accessToken: accessToken,
           accessTokenExpiresIn: process.env.JWT_EXPIRES,
           refreshToken: refreshToken,
