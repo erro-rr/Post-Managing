@@ -9,6 +9,6 @@ exports.deletePermissionValidator=[
 ];
 exports.updatePermissionValidator=[
     param('id').notEmpty().withMessage('Permission id is required'),
-    body('updatePermissionName').notEmpty().withMessage('update Permission is required'),
+    body('updatePermissionName').optional(),
     body('isDefault').optional()
 ]

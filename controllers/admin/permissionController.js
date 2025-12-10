@@ -12,7 +12,6 @@ const addPermission = async (req, res) => {
         }
 
         const { permission_name } = req.body;
-        console.log(permission_name);
         const isPermissionNameExist = await Permission.findOne({ permission_name });
         if (isPermissionNameExist) {
             return res.status(400).json({
@@ -118,7 +117,12 @@ const updatePermission = async (req, res) => {
         }
         const { id } = req.params;
         const { updatePermissionName } = req.body;
-        const isUpdatePermissionNameExist = await Permission.findOne({ permission_name: updatePermissionName });
+        // Check duplicate name for other records
+        const isUpdatePermissionNameExist = await Permission.findOne({
+            _id: { $ne: id },
+            permission_name: updatePermissionName
+        }
+        );
         if (isUpdatePermissionNameExist) {
             return res.status(400).json({
                 status: false,
@@ -126,14 +130,19 @@ const updatePermission = async (req, res) => {
             })
         }
 
+        const updatePayload = {};
+        if (updatePermissionName) {
+            updatePayload.permission_name = updatePermissionName
+        }
+
+        if (typeof isDefault !== "undefined") {
+            updatePayload.isDefault = parseInt(isDefault);
+        }
+
         const permissionData = await Permission.findByIdAndUpdate(
             id,
-            {
-                permission_name: updatePermissionName,
-                isDefault: req.body.isDefault ? parseInt(req.body.isDefault) : 0
-            }, {
-            new: true
-        }
+            updatePayload,
+            { new: true }
         );
         if (!permissionData) {
             return res.status(404).json({
