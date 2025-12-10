@@ -116,7 +116,7 @@ const updatePermission = async (req, res) => {
             })
         }
         const { id } = req.params;
-        const { updatePermissionName } = req.body;
+        const { updatePermissionName, isDefault } = req.body;
         // Check duplicate name for other records
         const isUpdatePermissionNameExist = await Permission.findOne({
             _id: { $ne: id },
