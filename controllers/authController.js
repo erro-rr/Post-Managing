@@ -175,11 +175,12 @@ const updatePassword = async (req, res) => {
     const userPasswordResetData = await passwordResetModel.findOne({ _id: reset_id });
 
     const errors = validationResult(req);
-    if(!errors.isEmpty()){
+    if (!errors.isEmpty()) {
       return res.render("passwordResetPage",
-        {userPasswordResetData,
-        error: errors.array()[0].msg
-    })
+        {
+          userPasswordResetData,
+          error: errors.array()[0].msg
+        })
     }
 
     if (!userPasswordResetData) {
@@ -294,6 +295,7 @@ const sendOTP = async (req, res) => {
 
 
       const otpData = await otpModelSchema.findOne({ user_id: userData._id });
+      // if OTP exist
       if (otpData) {
         const otpFlag = await otpValidation1min(otpData.timestamp);
         console.log(otpFlag);
@@ -324,6 +326,24 @@ const sendOTP = async (req, res) => {
           })
 
         }
+      }
+      else {
+        // CASE 2: No OTP found → Create a new record
+        const OTP = generateOTP();
+        await otpModelSchema.create({
+          user_id: userData._id,
+          otp: OTP,
+          timestamp: Date.now()
+        });
+        // sending email
+        const msg = `<p>Hi ${userData.name} <br></br> Please find your OTP for verification ${OTP}</p>`;
+        mailers.sendMail(email, 'OTP for verification', msg);
+
+        return res.status(201).json({
+          status: true,
+          msg: "OTP send to the register email"
+        })
+
       }
 
     }
