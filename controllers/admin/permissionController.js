@@ -120,7 +120,7 @@ const updatePermission = async (req, res) => {
         // Check duplicate name for other records
         const isUpdatePermissionNameExist = await Permission.findOne({
             _id: { $ne: id },
-            permission_name: updatePermissionName
+            permission_name: { $regex: `${updatePermissionName}`, $options: "i" }
         }
         );
         if (isUpdatePermissionNameExist) {

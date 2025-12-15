@@ -71,9 +71,9 @@ const userRegister = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(400).json({
+    return res.status(500).json({
       success: false,
-      msg: error.message,
+      msg: "Internal server error"
     });
   }
 };
@@ -166,9 +166,9 @@ const userLogin = async (req, res) => {
   }
   catch (error) {
     console.log(error);
-    return res.status(400).json({
+    return res.status(500).json({
       succes: false,
-      error: error
+      error: "Internal server error"
     })
   }
 }
@@ -240,9 +240,9 @@ const updateProfile = async (req, res) => {
   }
   catch (error) {
     console.log(error);
-    return res.status(400).json({
+    return res.status(500).json({
       status: false,
-      msg: "Unable to update profile"
+      msg: "Internal server error"
     })
   }
 }
@@ -269,9 +269,9 @@ const userLogout = async (req, res) => {
   }
   catch (error) {
     console.log(error);
-    return res.status(400).json({
+    return res.status(500).json({
       status: false,
-      msg: "Unable to log out User"
+      msg: "Internal server error"
     })
   }
 }

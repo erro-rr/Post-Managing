@@ -96,9 +96,9 @@ const sendMailVerification = async (req, res) => {
     }
   }
   catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       success: false,
-      msg: error.message
+      msg: "Internal server error"
     })
   }
 }
@@ -141,9 +141,9 @@ const forgotPassword = async (req, res) => {
 
   }
   catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       success: false,
-      msg: error.message
+      msg: "Internal server error"
     })
   }
 };
@@ -252,9 +252,9 @@ const refreshToken = async (req, res) => {
     })
   }
   catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       status: false,
-      msg: "Unable to refresh token"
+      msg: "Internal server error"
     })
   }
 
@@ -351,9 +351,9 @@ const sendOTP = async (req, res) => {
   }
   catch (error) {
     console.log(error);
-    return res.status(400).json({
+    return res.status(500).json({
       status: false,
-      msg: "Unable to Send OTP"
+      msg: "Internal server error"
     })
   }
 
@@ -423,9 +423,9 @@ const recieveOTPVerification = async (req, res) => {
   }
   catch (error) {
     console.log(error);
-    return res.status(400).json({
+    return res.status(500).json({
       status: false,
-      msg: "Unable to verify OTP"
+      msg: "Internal server error"
     })
   }
 }
